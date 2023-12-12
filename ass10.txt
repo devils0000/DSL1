@@ -1,0 +1,57 @@
+def binary_search(roll_numbers, target):
+    low, high = 0, len(roll_numbers) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if roll_numbers[mid] == target:
+            return mid  
+        elif roll_numbers[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return -1  # Return -1 if not found
+
+def fibonacci_search(roll_numbers, target):
+    def generate_fibonacci_sequence(n):
+        fib_sequence = [0, 1]
+        while fib_sequence[-1] < n:
+            fib_sequence.append(fib_sequence[-1] + fib_sequence[-2])
+        return fib_sequence
+
+    fib_sequence = generate_fibonacci_sequence(len(roll_numbers))
+    offset = 0
+
+    while fib_sequence:
+        mid = min(offset + fib_sequence.pop(), len(roll_numbers) - 1)
+        if roll_numbers[mid] == target:
+            return mid  # Return the index if found
+        elif roll_numbers[mid] < target:
+            offset = mid + 1
+        else:
+            fib_sequence.pop()  
+    return -1  
+
+def main():
+    # Example data: roll numbers of students who attended the training program
+    roll_numbers = [101, 104, 102, 105, 103]
+
+    # Student to search
+    target_student = int(input("Enter the roll number to search: "))
+
+    # Binary search
+    binary_result = binary_search(sorted(roll_numbers), target_student)
+    if binary_result != -1:
+        print(f"Binary Search: Student with roll number {target_student} attended the training program.")
+    else:
+        print(f"Binary Search: Student with roll number {target_student} did not attend the training program.")
+
+    # Fibonacci search
+    fibonacci_result = fibonacci_search(sorted(roll_numbers), target_student)
+    if fibonacci_result != -1:
+        print(f"Fibonacci Search: Student with roll number {target_student} attended the training program.")
+    else:
+        print(f"Fibonacci Search: Student with roll number {target_student} did not attend the training program.")
+
+if __name__ == "__main__":
+    main()

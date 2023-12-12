@@ -1,0 +1,43 @@
+marks=[]
+print("enter no of student in se class=")
+n=int(input())
+for i in range(n):
+    print("enter marks=")
+    m=int(input())
+    marks.append(m)
+print(marks)
+
+def avg(marks):
+ sum=0
+ count=0
+ 
+ for i in range(len(marks)):
+    if marks[i]!=-1 :
+      sum = sum + marks[i]
+      count+=1
+ print("the total sum of marks is ",sum)
+ print("the avg of the score is",sum/count)
+
+avg(marks)
+
+def high_low(marks):
+   p=marks[0]
+   for i in range(len(marks)):
+      if p<marks[i]:
+         p=marks[i]
+   print("the highest score of the class is",p)
+   p=marks[0]
+   for i in range(len(marks)):
+      if marks[i]!=-1:
+         if p>marks[i]:
+            p=marks[i]
+   print("the lowest score of the class is",p)
+high_low(marks)
+
+def absent(marks):
+   count=0
+   for i in range(len(marks)):
+      if marks[i] == -1:
+         count=count+1
+   print("the total number of absent student in the class is",count)
+absent(marks)

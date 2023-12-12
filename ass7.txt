@@ -1,0 +1,74 @@
+#include <iostream>
+using namespace std;
+
+class CircularQueue {
+private:
+    int front, rear, capacity;
+    int* orders;
+
+public:
+    CircularQueue(int maxOrders) : capacity(maxOrders + 1), front(0), rear(0), orders(new int[capacity]) {}
+
+    ~CircularQueue() { delete[] orders; }
+
+    void enqueue(int orderNumber) {
+        if (isFull()) {
+            cout << "Order queue is full. Cannot accept more orders." << endl;
+            return;
+        }
+        orders[rear] = orderNumber;
+        rear = (rear + 1) % capacity;
+        cout << "Order " << orderNumber << " accepted." << endl;
+    }
+
+    void serveOrder() {
+        if (isEmpty()) {
+            cout << "No orders to serve." << endl;
+            return;
+        }
+        
+        int servedOrder = orders[front];
+        front = (front + 1) % capacity;
+        cout << "Order " << servedOrder << " served." << endl;
+    }
+
+    bool isEmpty() { return front == rear; }
+
+    bool isFull() { return (rear + 1) % capacity == front; }
+};
+int main() {
+    int maxOrders;
+    cout << "Enter the maximum number of orders the pizza parlor can accept: ";
+    cin >> maxOrders;
+
+    CircularQueue pizzaQueue(maxOrders);
+
+    int choice, orderNumber;
+
+    do {
+        cout << "\nPizza Parlor Simulation Menu:" << endl;
+        cout << "1. Place an order" << endl;
+        cout << "2. Serve an order" << endl;
+        cout << "0. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter the order number: ";
+                cin >> orderNumber;
+                pizzaQueue.enqueue(orderNumber);
+                break;
+            case 2:
+                pizzaQueue.serveOrder();
+                break;
+            case 0:
+                cout << "Exiting the simulation." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 0);
+    return 0;
+}
+

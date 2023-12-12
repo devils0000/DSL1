@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+class JobQueue {
+private:
+    struct Job {
+        int jobId;
+        string jobDescription;
+        Job* next;
+    };
+
+    Job* front;
+    Job* rear;
+
+public:
+    JobQueue() : front(nullptr), rear(nullptr) {}
+
+    ~JobQueue() {
+        while (!isEmpty()) {
+            deleteJob();
+        }
+    }
+
+    void addJob(int jobId, const string& jobDescription) {
+        Job* newJob = new Job;
+        newJob->jobId = jobId;
+        newJob->jobDescription = jobDescription;
+        newJob->next = nullptr;
+
+        if (isEmpty()) {
+            front = rear = newJob;
+        } else {
+            rear->next = newJob;
+            rear = newJob;
+        }
+
+        cout << "Job " << jobId << " added to the queue: " << jobDescription << endl;
+    }
+
+    void deleteJob() {
+        if (isEmpty()) {
+            cout << "Job queue is empty. No job to delete." << endl;
+            return;
+        }
+
+        Job* temp = front;
+        front = front->next;
+
+        cout << "Job " << temp->jobId << " deleted from the queue: " << temp->jobDescription << endl;
+        delete temp;
+
+        if (isEmpty()) {
+            rear = nullptr;
+        }
+    }
+
+    bool isEmpty() {
+        return front == nullptr;
+    }
+};
+
+int main() {
+    JobQueue jobQueue;
+
+    jobQueue.addJob(1, "Print Document");
+    jobQueue.addJob(2, "Compile Code");
+    jobQueue.addJob(3, "Run Tests");
+
+    jobQueue.deleteJob();
+    jobQueue.deleteJob();
+
+    jobQueue.addJob(4, "Backup Data");
+
+    return 0;
+}

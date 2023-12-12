@@ -1,0 +1,38 @@
+def linear_search(roll_numbers, target):
+    for i, roll_number in enumerate(roll_numbers):
+        if roll_number == target:
+            return i  # Return the index if found
+    return -1  # Return -1 if not found
+
+def sentinel_search(roll_numbers, target):
+    # Add sentinel at the end of the array
+    roll_numbers.append(target)
+    i = 0
+    while roll_numbers[i] != target:
+        i += 1
+    roll_numbers.pop()  # Remove the sentinel before returning the result
+    return -1 if i == len(roll_numbers) else i
+
+def main():
+    # Example data: roll numbers of students who attended the training program
+    roll_numbers = [101, 104, 102, 105, 103]
+
+    # Student to search
+    target_student = int(input("Enter the roll number to search: "))
+
+    # Linear search
+    linear_result = linear_search(roll_numbers, target_student)
+    if linear_result != -1:
+        print(f"Linear Search: Student with roll number {target_student} attended the training program.")
+    else:
+        print(f"Linear Search: Student with roll number {target_student} did not attend the training program.")
+
+    # Sentinel search
+    sentinel_result = sentinel_search(roll_numbers, target_student)
+    if sentinel_result != -1:
+        print(f"Sentinel Search: Student with roll number {target_student} attended the training program.")
+    else:
+        print(f"Sentinel Search: Student with roll number {target_student} did not attend the training program.")
+
+if __name__ == "__main__":
+    main()
